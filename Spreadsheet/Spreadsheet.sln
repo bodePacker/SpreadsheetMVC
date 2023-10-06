@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaEvaluator", "Formula
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaEvaluatorTest", "FormulaEvaluatorTest\FormulaEvaluatorTest.csproj", "{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradingTests", "GradingTests\GradingTests.csproj", "{2C774DCE-0F5E-4132-9D15-17B82A3EF950}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraph", "DependencyGraph\DependencyGraph.csproj", "{09BDF916-16FB-46D8-AB22-64DDC1C92A41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraphTests", "DependencyGraphTests\DependencyGraphTests.csproj", "{0C4FE23D-76C5-44CA-877F-7CEA94C29C1D}"
@@ -35,10 +33,6 @@ Global
 		{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C774DCE-0F5E-4132-9D15-17B82A3EF950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C774DCE-0F5E-4132-9D15-17B82A3EF950}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C774DCE-0F5E-4132-9D15-17B82A3EF950}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C774DCE-0F5E-4132-9D15-17B82A3EF950}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09BDF916-16FB-46D8-AB22-64DDC1C92A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09BDF916-16FB-46D8-AB22-64DDC1C92A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09BDF916-16FB-46D8-AB22-64DDC1C92A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
