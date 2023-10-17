@@ -26,12 +26,15 @@
 
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	  <MtouchLink>SdkOnly</MtouchLink>
+	  <WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 	  <MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
+	  <MtouchLink>SdkOnly</MtouchLink>
+	  <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->

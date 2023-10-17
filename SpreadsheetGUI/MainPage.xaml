@@ -9,8 +9,47 @@
             <MenuFlyoutItem Text="Open" Clicked="OpenClicked" />
         </MenuBarItem>
     </ContentPage.MenuBarItems>
-    <Grid>
-        <SS:SpreadsheetGrid x:Name="spreadsheetGrid" />
+    <Grid RowDefinitions="40,*"
+          ColumnDefinitions="*,2*,2*">
+
+        <Label
+            x:Name="CellName"
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="CellName"
+       FontAttributes="Bold"
+       FontSize="18">
+        <Label.TextColor>
+           White
+        </Label.TextColor>
+        </Label>
+
+        <Label
+            x:Name="CellValue"
+            Grid.Row="0"
+            Grid.Column="1"
+
+            Text=""
+       FontAttributes="Bold"
+       FontSize="18">
+        <Label.TextColor>
+           White
+        </Label.TextColor>
+        </Label>
+
+        <Entry
+            x:Name="CellEntry"
+            Grid.Row="0"
+            Grid.Column="2"
+
+            Text="CellEntry"
+           FontAttributes="Bold"
+           FontSize="18">
+        </Entry>
+
+        <SS:SpreadsheetGrid x:Name="spreadsheetGrid"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"/>
     </Grid>
 </ContentPage>
 
