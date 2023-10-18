@@ -13,43 +13,46 @@
           ColumnDefinitions="*,2*,2*">
 
         <Label
-            x:Name="CellName"
+            x:Name="currentCellName"
             Grid.Row="0"
             Grid.Column="0"
-            Text="CellName"
-       FontAttributes="Bold"
-       FontSize="18">
-        <Label.TextColor>
-           White
-        </Label.TextColor>
-        </Label>
+            Text="A1"
+            FontAttributes="Bold"
+            FontSize="18"
+            
+            TextColor="White"
+            BackgroundColor="DarkGray"
+
+        />
 
         <Label
-            x:Name="CellValue"
+            x:Name="currentCellValue"
             Grid.Row="0"
             Grid.Column="1"
-
             Text=""
-       FontAttributes="Bold"
-       FontSize="18">
-        <Label.TextColor>
-           White
-        </Label.TextColor>
-        </Label>
+            FontAttributes="Bold"
+            FontSize="18"
+            TextColor="White"
+            BackgroundColor="DarkGray"
+        />
 
         <Entry
-            x:Name="CellEntry"
+            x:Name="currentCellContents"
             Grid.Row="0"
             Grid.Column="2"
+            
+            Text=""
+            FontAttributes="Bold"
+            FontSize="18"
+            BackgroundColor="DarkGray"
 
-            Text="CellEntry"
-           FontAttributes="Bold"
-           FontSize="18">
-        </Entry>
+        />
 
-        <SS:SpreadsheetGrid x:Name="spreadsheetGrid"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="3"/>
+        <SS:SpreadsheetGrid
+            x:Name="spreadsheetGrid"
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+        />
     </Grid>
 </ContentPage>
 

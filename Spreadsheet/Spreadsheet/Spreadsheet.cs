@@ -395,7 +395,8 @@ public class Spreadsheet : AbstractSpreadsheet
     private bool IsValidName(string t)
     {
         return Regex.IsMatch(t, "^[a-zA-Z_][a-zA-Z0-9_]*$") &&
-               Regex.IsMatch(normalizer(t), "^[a-zA-Z_][a-zA-Z0-9_]*$") && validator(normalizer(t));
+               Regex.IsMatch(normalizer(t), "^[a-zA-Z_][a-zA-Z0-9_]*$") &&
+               validator(normalizer(t));
     }
     
     private void UpdateValues(IEnumerable<string> cellsToUpdate)

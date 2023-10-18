@@ -1,5 +1,6 @@
 ﻿using SS;
-
+using System.Text.RegularExpressions;
+using SpreadsheetUtilities;
 namespace SpreadsheetGUI;
 
 /// <summary>
@@ -7,6 +8,9 @@ namespace SpreadsheetGUI;
 /// </summary>
 public partial class MainPage : ContentPage
 {
+    Spreadsheet spreadsheet;
+
+    
 
     /// <summary>
     /// Constructor for the demo
@@ -20,19 +24,51 @@ public partial class MainPage : ContentPage
         // delegate that specifies that all methods that register with it must
         // take a SpreadsheetGrid as its parameter and return nothing.  So we
         // register the displaySelection method below.
+        //currentCellValue.Text= $"\"\"";
+        spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
         spreadsheetGrid.SelectionChanged += displaySelection;
-        spreadsheetGrid.SetSelection(2, 3);
+        spreadsheetGrid.SetSelection(0, 0);
+        displaySelection(spreadsheetGrid);
+        
     }
 
     private void displaySelection(ISpreadsheetGrid grid)
     {
         spreadsheetGrid.GetSelection(out int col, out int row);
         spreadsheetGrid.GetValue(col, row, out string value);
-        if (value == "")
+        currentCellValue.Text = value;
+        currentCellName.Text = cordsToString(col, row);
+        var content = spreadsheet.GetCellContents(cordsToString(col, row));
+        currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
+        currentCellContents.Completed += CurrentCellContents_Completed;
+        //if (value == "")
+        //{
+        //    spreadsheetGrid.SetValue(col, row, DateTime.Now.ToLocalTime().ToString("T"));
+        //    spreadsheetGrid.GetValue(col, row, out value);
+        //    DisplayAlert("Selection:", "column " + col + " row " + row + " value " + value, "OK");
+        //}
+    }
+
+    private void CurrentCellContents_Completed(object sender, EventArgs e)
+    {
+        IList<String> cellsToUpdate;
+        try
         {
-            spreadsheetGrid.SetValue(col, row, DateTime.Now.ToLocalTime().ToString("T"));
-            spreadsheetGrid.GetValue(col, row, out value);
-            DisplayAlert("Selection:", "column " + col + " row " + row + " value " + value, "OK");
+            cellsToUpdate = spreadsheet.SetContentsOfCell(currentCellName.Text, currentCellContents.Text);
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error:",$"Threw exception {ex.Message}", "Undo");
+            currentCellContents.Text = spreadsheet.GetCellContents(currentCellName.Text).ToString();
+            return;
+        }
+        currentCellValue.Text = spreadsheet.GetCellValue(cellsToUpdate[0]).ToString();
+
+        foreach(var s in cellsToUpdate)
+        {
+            int col = s[0] - 65;
+            int row = int.Parse(s[1..]) -1;
+            spreadsheetGrid.SetValue(col, row, spreadsheet.GetCellValue(s).ToString());
         }
     }
 
@@ -71,4 +107,12 @@ public partial class MainPage : ContentPage
             Console.WriteLine(ex);
         }
     }
+
+    private string cordsToString(int col, int row)
+    {
+        return $"{(char)(col + 65)}{row + 1}";
+    }
+
+
+    
 }
