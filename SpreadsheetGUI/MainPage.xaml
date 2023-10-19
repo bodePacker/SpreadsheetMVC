@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:SS="clr-namespace:SS"
              x:Class="SpreadsheetGUI.MainPage"
-             BackgroundColor="Black">
+             BackgroundColor="LightBlue">
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
@@ -14,50 +14,76 @@
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="40,*"
           ColumnDefinitions="*,2*,2*"
-          BackgroundColor="Black">
-          
-        <Label
-            x:Name="currentCellName"
-            Grid.Row="0"
-            Grid.Column="0"
-            Text="A1"
-            FontAttributes="Bold"
-            FontSize="25"
-            
-            TextColor="White"
-            BackgroundColor="DarkGray"
-            Padding="5"
-        />
- 
-        <Label
-            x:Name="currentCellValue"
-            Grid.Row="0"
-            Grid.Column="1"
-            Text=""
-            FontAttributes="Bold"
-            FontSize="25"
-            TextColor="White"
-            BackgroundColor="DarkGray"
-            Margin="2,0,1,0"
-            Padding="5"
-        />
-        
+          BackgroundColor="LightBlue">
 
+        <Border x:Name="CellNameBorder"
+        Grid.Row="0"
+        Grid.Column="0"    
+        Stroke="LightBlue"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 10,10,10,10"
+        Padding=".5">
+           
+
+
+            <Label
+                x:Name="currentCellName"
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="A1"
+                FontAttributes="Bold"
+                FontSize="25"
+                TextColor="White"
+                BackgroundColor="DarkGray"
+                Padding="10,.5,1,1"
+            />
+        </Border>
+
+        <Border x:Name="ValueBorder"
+        Grid.Row="0"
+        Grid.Column="1"
+        Stroke="LightBlue"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 13,13,13,13"
+        Padding=".5"
+        >
         
-        <Entry
+            <Label
+                x:Name="currentCellValue"
+                Grid.Row="0"
+                Grid.Column="1"
+                Text=""
+                FontAttributes="Bold"
+                FontSize="25"
+                TextColor="White"
+                BackgroundColor="DarkGray"
+                Padding="10,.5,1,1"
+            />
+        </Border>
+
+        <Border x:Name="EntryBorder"
+        Grid.Row="0"
+        Grid.Column="2"
+        Stroke="LightBlue"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 13,13,13,13"
+        Padding=".5"
+        >
+            <Entry
             x:Name="currentCellContents"
             Grid.Row="0"
             Grid.Column="2"
-            
             Text=""
+            TextColor="White"
             FontAttributes="Bold"
-            FontSize="21"
+            FontSize="16.5"
             BackgroundColor="DarkGray"
             
             
-        />
-
-        <SS:SpreadsheetGrid
+            />
+        </Border>
+        
+            <SS:SpreadsheetGrid
             x:Name="spreadsheetGrid"
             Grid.Row="1"
             Grid.ColumnSpan="3"

@@ -1,6 +1,8 @@
 ﻿using SS;
 using System.Text.RegularExpressions;
 using SpreadsheetUtilities;
+using System.Net.Security;
+
 namespace SpreadsheetGUI;
 
 /// <summary>
@@ -46,6 +48,10 @@ public partial class MainPage : ContentPage
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
         currentCellContents.Completed += CurrentCellContents_Completed;
         currentCellContents.Focus();
+        //if (currentCellContents.Focus())
+        //{
+        //    currentCellName.Text = "hello";
+        //}
         //if (value == "")
         //{
         //    spreadsheetGrid.SetValue(col, row, DateTime.Now.ToLocalTime().ToString("T"));
