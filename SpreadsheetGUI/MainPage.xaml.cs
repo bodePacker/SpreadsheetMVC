@@ -45,6 +45,7 @@ public partial class MainPage : ContentPage
         var content = spreadsheet.GetCellContents(cordsToString(col, row));
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
         currentCellContents.Completed += CurrentCellContents_Completed;
+        currentCellContents.Focus();
         //if (value == "")
         //{
         //    spreadsheetGrid.SetValue(col, row, DateTime.Now.ToLocalTime().ToString("T"));
