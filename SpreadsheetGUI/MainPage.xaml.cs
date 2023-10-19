@@ -36,7 +36,11 @@ public partial class MainPage : ContentPage
     {
         spreadsheetGrid.GetSelection(out int col, out int row);
         spreadsheetGrid.GetValue(col, row, out string value);
-        currentCellValue.Text = value;
+        if(value.Equals(""))
+            currentCellValue.Text = "\"\""; 
+        else
+            currentCellValue.Text = value;
+
         currentCellName.Text = cordsToString(col, row);
         var content = spreadsheet.GetCellContents(cordsToString(col, row));
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
@@ -59,7 +63,9 @@ public partial class MainPage : ContentPage
         catch (Exception ex)
         {
             DisplayAlert("Error:",$"Threw exception {ex.Message}", "Undo");
-            currentCellContents.Text = spreadsheet.GetCellContents(currentCellName.Text).ToString();
+            //currentCellContents.Text = spreadsheet.GetCellContents(currentCellName.Text).ToString();
+            var content = spreadsheet.GetCellContents(currentCellName.Text);
+            currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
             return;
         }
         currentCellValue.Text = spreadsheet.GetCellValue(cellsToUpdate[0]).ToString();
@@ -74,8 +80,35 @@ public partial class MainPage : ContentPage
 
     private void NewClicked(Object sender, EventArgs e)
     {
-        spreadsheetGrid.Clear();
+        
+        
+        if (spreadsheet.Changed)
+        {
+            var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
+            if (b.IsCanceled) { return; }
+            else spreadsheetGrid.Clear();
+        }
+
+        //This code block hard frezes application. Currenlty unknown why.
+        //if (spreadsheet.Changed) 
+        //{
+        //    //Gives a pop up notifing the user of a potentially unsafe action
+        //    var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
+        //    //If the user accepts the warning, clear the spreadsheet. If canceled, nothing happens.
+        //    if (b.Result)
+        //    {
+        //        spreadsheetGrid.Clear();
+        //    }
+
+        //}
+        //else
+        //    spreadsheetGrid.Clear();
+
     }
+     private void SaveClicked(object sender, EventArgs e)
+     {
+        //spreadsheet.Save();
+     }
 
     /// <summary>
     /// Opens any file as text and prints its contents.
@@ -84,27 +117,38 @@ public partial class MainPage : ContentPage
     /// </summary>
     private async void OpenClicked(Object sender, EventArgs e)
     {
-        try
-        {
-            FileResult fileResult = await FilePicker.Default.PickAsync();
-            if (fileResult != null)
-            {
-        Console.WriteLine( "Successfully chose file: " + fileResult.FileName );
-        // for windows, replace Console.WriteLine statements with:
-        //System.Diagnostics.Debug.WriteLine( ... );
 
-        string fileContents = File.ReadAllText(fileResult.FullPath);
-                Console.WriteLine("First 100 file chars:\n" + fileContents.Substring(0, 100));
-            }
-            else
-            {
-                Console.WriteLine("No file selected.");
-            }
-        }
-        catch (Exception ex)
+        if (spreadsheet.Changed)
         {
-            Console.WriteLine("Error opening file:");
-            Console.WriteLine(ex);
+            //Gives a pop up notifing the user of a potentially unsafe action
+            var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
+
+            //If the user accepts the warning, attempt to open the spreadsheet. If canceled, nothing happens.
+            if (b.Result)
+            {
+                try
+                {
+                    FileResult fileResult = await FilePicker.Default.PickAsync();
+                    if (fileResult != null)
+                    {
+                        Console.WriteLine("Successfully chose file: " + fileResult.FileName);
+                        // for windows, replace Console.WriteLine statements with:
+                        //System.Diagnostics.Debug.WriteLine( ... );
+
+                        string fileContents = File.ReadAllText(fileResult.FullPath);
+                        Console.WriteLine("First 100 file chars:\n" + fileContents.Substring(0, 100));
+                    }
+                    else
+                    {
+                        Console.WriteLine("No file selected.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error opening file:");
+                    Console.WriteLine(ex);
+                }
+            }
         }
     }
 
@@ -113,6 +157,5 @@ public partial class MainPage : ContentPage
         return $"{(char)(col + 65)}{row + 1}";
     }
 
-
-    
+   
 }

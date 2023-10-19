@@ -2,40 +2,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:SS="clr-namespace:SS"
-             x:Class="SpreadsheetGUI.MainPage">
+             x:Class="SpreadsheetGUI.MainPage"
+             BackgroundColor="Black">
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
+            <MenuFlyoutItem Text="Save" Clicked="SaveClicked" />
             <MenuFlyoutItem Text="Open" Clicked="OpenClicked" />
+            
         </MenuBarItem>
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="40,*"
-          ColumnDefinitions="*,2*,2*">
-
+          ColumnDefinitions="*,2*,2*"
+          BackgroundColor="Black">
+          
         <Label
             x:Name="currentCellName"
             Grid.Row="0"
             Grid.Column="0"
             Text="A1"
             FontAttributes="Bold"
-            FontSize="18"
+            FontSize="25"
             
             TextColor="White"
             BackgroundColor="DarkGray"
-
+            Padding="5"
         />
-
+ 
         <Label
             x:Name="currentCellValue"
             Grid.Row="0"
             Grid.Column="1"
             Text=""
             FontAttributes="Bold"
-            FontSize="18"
+            FontSize="25"
             TextColor="White"
             BackgroundColor="DarkGray"
+            Margin="2,0,1,0"
+            Padding="5"
         />
+        
 
+        
         <Entry
             x:Name="currentCellContents"
             Grid.Row="0"
@@ -43,9 +51,10 @@
             
             Text=""
             FontAttributes="Bold"
-            FontSize="18"
+            FontSize="21"
             BackgroundColor="DarkGray"
-
+            
+            
         />
 
         <SS:SpreadsheetGrid
