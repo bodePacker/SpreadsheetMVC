@@ -7,9 +7,14 @@
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
-            <MenuFlyoutItem Text="Save" Clicked="SaveClicked" />
+            <MenuFlyoutItem Text="Save" Clicked="SaveClickedAsync" />
             <MenuFlyoutItem Text="Open" Clicked="OpenClicked" />
             
+        </MenuBarItem>
+        <MenuBarItem Text="Help">
+            <MenuFlyoutItem Text="View Help Info" Clicked="HelpClicked" />
+            
+
         </MenuBarItem>
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="40,*"

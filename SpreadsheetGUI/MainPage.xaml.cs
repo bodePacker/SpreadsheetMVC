@@ -85,36 +85,49 @@ public partial class MainPage : ContentPage
         }
     }
 
-    private void NewClicked(Object sender, EventArgs e)
+    private async void NewClicked(Object sender, EventArgs e)
     {
-        
-        
         if (spreadsheet.Changed)
         {
             var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
-            if (b.IsCanceled) { return; }
-            else spreadsheetGrid.Clear();
+            await b;
+            if (b.Result)
+            { 
+                spreadsheetGrid.Clear();
+                currentCellContents.Text = "";
+
+                //Effectively clears the spreadsheet and all of its cells using the same validator on intial construction
+                spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
+            }
+        }
+        //If there has not been a change to the spreadsheet (Loaded or otherwise) just clear automatically. 
+        else spreadsheetGrid.Clear();
+    }
+     private async void SaveClickedAsync(object sender, EventArgs e)
+     {
+        //Displays a text prompt for the user to put in a file path to save the given spreadsheet to.
+        string path = await DisplayPromptAsync("Saving", "Enter Full File Save Path (Example: C:/SavedSheets/saveName.sprd)");
+
+        //If there is no input or action is canceled, don't display popup window. 
+        if (path is null)
+            return; 
+        //Interesting method call. Might be useful to let the user only put in part of a directory. 
+        //path = Path.GetFullPath(path);
+        try
+        {
+            spreadsheet.Save(path);
+        }
+        catch
+        {
+            //Lets the user know there was a problem when attempting to save to the given filepath.
+            await DisplayAlert("Error:", "There was problem saving the given file.", "Okay");
         }
 
-        //This code block hard frezes application. Currenlty unknown why.
-        //if (spreadsheet.Changed) 
-        //{
-        //    //Gives a pop up notifing the user of a potentially unsafe action
-        //    var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
-        //    //If the user accepts the warning, clear the spreadsheet. If canceled, nothing happens.
-        //    if (b.Result)
-        //    {
-        //        spreadsheetGrid.Clear();
-        //    }
+     }
 
-        //}
-        //else
-        //    spreadsheetGrid.Clear();
-
-    }
-     private void SaveClicked(object sender, EventArgs e)
+     private void HelpClicked(object sender, EventArgs e)
      {
-        //spreadsheet.Save();
+
      }
 
     /// <summary>
