@@ -18,11 +18,17 @@
 
         </MenuBarItem>
 
-        <MenuBarItem Text="Revert Actions">
-            <MenuFlyoutItem Text="Undo" Clicked="UndoClicked" />
-            <MenuFlyoutItem Text="Redo" Clicked="RedoClicked" />
-
-
+        <MenuBarItem Text="Edit">
+            <MenuFlyoutItem
+                x:Name="BackButton"
+                Text="Undo"
+                Clicked="UndoClicked"
+            />
+            <MenuFlyoutItem
+                x:Name="ForwardButton"
+                Text="Redo"
+                Clicked="RedoClicked"
+            />
         </MenuBarItem>
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="40,*"

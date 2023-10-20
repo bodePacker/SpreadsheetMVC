@@ -11,8 +11,7 @@ namespace SpreadsheetGUI;
 public partial class MainPage : ContentPage
 {
     Spreadsheet spreadsheet;
-    string previousCellChanged;
-    string previousCellContent;
+    History history;
 
 
 
@@ -30,10 +29,15 @@ public partial class MainPage : ContentPage
         // register the displaySelection method below.
         //currentCellValue.Text= $"\"\"";
         spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
+        history = new();
+        currentCellContents.Completed += CurrentCellContents_Completed;
         spreadsheetGrid.SelectionChanged += displaySelection;
         spreadsheetGrid.SetSelection(0, 0);
+        ForwardButton.IsEnabled = false;
+        BackButton.IsEnabled = false;
         displaySelection(spreadsheetGrid);
-        
+
+
     }
     /// <summary>
     /// Whenever the spreadsheetGrid detects a selection has been changed, run this event using the spreadsheetGrid that notified it. 
@@ -52,23 +56,8 @@ public partial class MainPage : ContentPage
         currentCellName.Text = CordsToString(col, row);
         var content = spreadsheet.GetCellContents(CordsToString(col, row));
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
-
-
-        previousCellContent = currentCellContents.Text;
-
-        currentCellContents.Completed += CurrentCellContents_Completed;
         currentCellContents.Focus();
-        //This shows that focus is still being put onto the given element, but the cursor is not being updated for some reason. 
-        //if (currentCellContents.Focus())
-        //{
-        //    currentCellName.Text = "hello";
-        //}
-        //if (value == "")
-        //{
-        //    spreadsheetGrid.SetValue(col, row, DateTime.Now.ToLocalTime().ToString("T"));
-        //    spreadsheetGrid.GetValue(col, row, out value);
-        //    DisplayAlert("Selection:", "column " + col + " row " + row + " value " + value, "OK");
-        //}
+       
     }
 
     /// <summary>
@@ -79,23 +68,26 @@ public partial class MainPage : ContentPage
     private void CurrentCellContents_Completed(object sender, EventArgs e)
     {
         IList<String> cellsToUpdate;
+        object oldContentsObject = spreadsheet.GetCellContents(currentCellName.Text);
+        string oldContent = oldContentsObject is Formula ? $"={oldContentsObject}" : oldContentsObject.ToString();
         try
         {
-            previousCellChanged = currentCellName.Text;
 
             cellsToUpdate = spreadsheet.SetContentsOfCell(currentCellName.Text, currentCellContents.Text);
         }
         catch (Exception ex)
         {
             DisplayAlert("Error:",$"Threw exception {ex.Message}", "Undo");
-            //currentCellContents.Text = spreadsheet.GetCellContents(currentCellName.Text).ToString();
-            var content = spreadsheet.GetCellContents(currentCellName.Text);
-            currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
+            currentCellContents.Text = oldContent;
             return;
         }
+
+        history.addÇell(currentCellName.Text, oldContent, currentCellContents.Text);
         currentCellValue.Text = spreadsheet.GetCellValue(cellsToUpdate[0]).ToString();
 
-        foreach(var s in cellsToUpdate)
+        BackButton.IsEnabled = history.canGoBack();
+        ForwardButton.IsEnabled = history.canGoForward();
+        foreach (var s in cellsToUpdate)
         {
             int col = s[0] - 65;
             int row = int.Parse(s[1..]) -1;
@@ -222,14 +214,24 @@ public partial class MainPage : ContentPage
 
     private void UndoClicked(object sender, EventArgs e)
     {
+        var oldData = history.Back();
+        spreadsheet.SetContentsOfCell(oldData.Item1, oldData.Item2);
+        var coords = StringToCoords(oldData.Item1);
+        spreadsheetGrid.SetValue(coords.Item1, coords.Item2, oldData.Item2);
+        ForwardButton.IsEnabled = history.canGoForward();
+        BackButton.IsEnabled = history.canGoBack();
+
         
-        //spreadsheetGrid.SetSelection(StringToCoords(previousCellChanged).Item1, StringToCoords(previousCellChanged).Item1);
-        currentCellContents.Text = previousCellContent;
-        currentCellContents.SendCompleted();
     }
 
     private void RedoClicked(object sender, EventArgs e)
     {
+        var newData = history.Forward();
+        spreadsheet.SetContentsOfCell(newData.Item1, newData.Item2);
+        var coords = StringToCoords(newData.Item1);
+        spreadsheetGrid.SetValue(coords.Item1, coords.Item2, newData.Item2);
+        ForwardButton.IsEnabled = history.canGoForward();
+        BackButton.IsEnabled = history.canGoBack();
 
     }
 
