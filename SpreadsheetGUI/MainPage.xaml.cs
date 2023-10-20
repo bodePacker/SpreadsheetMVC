@@ -1,7 +1,6 @@
 ﻿using SS;
 using System.Text.RegularExpressions;
 using SpreadsheetUtilities;
-using System.Net.Security;
 
 namespace SpreadsheetGUI;
 
@@ -166,7 +165,7 @@ public partial class MainPage : ContentPage
     /// </summary>
     private async void OpenClicked(Object sender, EventArgs e)
     {
-
+       var tempsheet = new Spreadsheet();
         if (spreadsheet.Changed)
         {
             //Gives a pop up notifing the user of a potentially unsafe action
@@ -181,44 +180,36 @@ public partial class MainPage : ContentPage
                 FileResult fileResult = await FilePicker.Default.PickAsync();
                 if (fileResult != null)
                 {
-                    //Console.WriteLine("Successfully chose file: " + fileResult.FileName);
-                    // for windows, replace Console.WriteLine statements with:
-                    //System.Diagnostics.Debug.WriteLine( ... );
-
                     //creates a new backing spreadsheet from the given file and uses the same validator and normalizer decided on for this
                     //SpreashseetGUI application 
+                    tempsheet = spreadsheet;
                     spreadsheet = new(fileResult.FullPath, x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(),"ps6");
-                    
+                    spreadsheetGrid.Clear();
                     //iterate through every cell that has content, and update the visual value in spreadsheetGrid. 
                     foreach (string cell in spreadsheet.GetNamesOfAllNonemptyCells())
                         spreadsheetGrid.SetValue(StringToCoords(cell).Item1, StringToCoords(cell).Item2, spreadsheet.GetCellValue(cell).ToString());
-
-                    //string fileContents = File.ReadAllText(fileResult.FullPath);
-                    //Console.WriteLine("First 100 file chars:\n" + fileContents.Substring(0, 100));
                 }
                 else
                 {
-                    //Console.WriteLine("No file selected.");
                     await DisplayAlert("Failure:", "No file selected.", "Okay");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error:", $"There was problem opening the given file. {ex.Message}" , "Okay");
-
-                //Console.WriteLine("Error opening file:");
-                //Console.WriteLine(ex);
+            await DisplayAlert("Error:", $"There was problem opening the given file. {ex.Message}" , "Okay");
+            spreadsheet = tempsheet;
+            spreadsheetGrid.Clear();
+            foreach (string cell in spreadsheet.GetNamesOfAllNonemptyCells())
+                spreadsheetGrid.SetValue(StringToCoords(cell).Item1, StringToCoords(cell).Item2, spreadsheet.GetCellValue(cell).ToString());
             }
-            
-        
     }
 
     private void EditingSpreadheetHelpClicked(object sender, EventArgs e)
     {
         DisplayAlert("How To Use The Spreadsheet:", 
             "1. To change the value of a cell, click on it and then input the desired content into the text box on the top right of the window. \n" +
-            "2. Once you have the desired text in the box, press enter to update the valeus in the spreadsheet. \n" +
-            "3. The current cell name will be in the top left box, and the current cell value wil be in the middle box. \n" +
+            "2. Once you have the desired text in the box, press enter to update the values in the spreadsheet. \n" +
+            "3. The current cell name will be in the top left box, and the current cell value will be in the middle box. \n" +
             "4. In order to enter formulas into the sheet, they must start with an equal sign, otherwise it will be taken as a string literal. EX:(=A1+5) ", "Okay");
     }
 
@@ -226,16 +217,25 @@ public partial class MainPage : ContentPage
     {
         DisplayAlert("How To Save, Load, Or Create New Spreadsheet:",
             "1. When \"New\" is clicked in the File Menu, a dialogue box asking if you want to erase unsaved work will pop up. If you want to back out, press \"Cancel\" and a new sheet will not be created. " +
-            "If a new sheet is desired press \"Accept\" and unsaved work will be deleted a new sheet will be displayed. \n" +
-            "2. When \"Open\" is clicked in the File Menu, a dialogue box asking about deleting unsaved work, similar to \"New\" will appear. Following that action, if \"Accept\"  \n" +
-            "3. The current cell name will be in the top left box, and the current cell value wil be in the middle box. \n" +
-            "4. In order to enter formulas into the sheet, they must start with an equal sign, otherwise it will be taken as a string literal. EX:(=A1+5) ", "Okay");
+            "If a new sheet is desired press \"Accept\" and unsaved work will be deleted and a new sheet will be displayed. \n" +
+            "2. When \"Open\" is clicked in the File Menu, a dialogue box asking about deleting unsaved work, similar to \"New\", will appear. Following that action, if \"Accept\" is " +
+            "clicked, a File Selector window will open where the user will select a file. If the file does not end with .sprd the load will fail. Opened files should be in proper JSON format as listed in " +
+            "the API for spreadsheet.cs . All values in both the backing spreadsheet and visually on the SpreadsheetGrid will be updated from the opened file.  \n" +
+            "3.  When \"Save\" is clicked in the File Menu, a dialogue text box will pop up asking you to input the file path where the current spreadsheet should be saved. Once a file has been saved" +
+            "using this button, clicking this button again will automatically save the sheet to the same location.", "Okay");
     }
 
     private void UndoRedoHelpClicked(object sender, EventArgs e)
     {
-
+        DisplayAlert("How to Undo and Redo Actions:",
+            "1. When \"Undo\" is clicked in the Edit Menu, the last most recently altered cell will revert to its previous content." +
+            " *Note: On Mac, Menu Items can not be disabled, so clicking Undo when no actions are remaining will throw an error.*  \n" +
+            "2. When \"Redo\" is clicked in the Edit Menu, it reverses the most recent Undone action. " +
+            "*Note: On Mac, Menu Items can not be disabled, so clicking Redo when no actions have been Undone will throw an error.* \n" +
+            "3. Finally, as a simple Special Feature, we added the functionality where if there are more than 10 characters in a cell, the spreadsheet will visually truncate the values so they fit inside the cell." +
+            "", "Okay");
     }
+
 
     private void UndoClicked(object sender, EventArgs e)
     {
@@ -244,9 +244,7 @@ public partial class MainPage : ContentPage
         var coords = StringToCoords(oldData.Item1);
         spreadsheetGrid.SetValue(coords.Item1, coords.Item2, oldData.Item2);
         ForwardButton.IsEnabled = history.canGoForward();
-        BackButton.IsEnabled = history.canGoBack();
-
-        
+        BackButton.IsEnabled = history.canGoBack(); 
     }
 
     private void RedoClicked(object sender, EventArgs e)
@@ -257,7 +255,6 @@ public partial class MainPage : ContentPage
         spreadsheetGrid.SetValue(coords.Item1, coords.Item2, newData.Item2);
         ForwardButton.IsEnabled = history.canGoForward();
         BackButton.IsEnabled = history.canGoBack();
-
     }
 
     /// <summary>
@@ -292,6 +289,4 @@ public partial class MainPage : ContentPage
         int rowIndex = int.Parse(cellName[1..]) - 1; 
         return (columnIndex, rowIndex);
     }
-
-
 }

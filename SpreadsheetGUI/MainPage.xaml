@@ -4,7 +4,7 @@
              xmlns:SS="clr-namespace:SS"
              x:Class="SpreadsheetGUI.MainPage"
              BackgroundColor="LightBlue">
-    <ContentPage.MenuBarItems >
+    <ContentPage.MenuBarItems>
         
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
