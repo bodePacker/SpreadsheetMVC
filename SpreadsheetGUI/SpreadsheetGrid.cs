@@ -2,7 +2,6 @@
 using Font = Microsoft.Maui.Graphics.Font;
 using SizeF = Microsoft.Maui.Graphics.SizeF;
 using PointF = Microsoft.Maui.Graphics.PointF;
-using Windows.UI.Core;
 
 namespace SS;
 
