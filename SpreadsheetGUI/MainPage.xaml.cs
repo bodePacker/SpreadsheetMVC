@@ -11,13 +11,15 @@ namespace SpreadsheetGUI;
 public partial class MainPage : ContentPage
 {
     Spreadsheet spreadsheet;
+    string previousCellChanged;
+    string previousCellContent;
 
-    
+
 
     /// <summary>
     /// Constructor for the demo
     /// </summary>
-	public MainPage()
+    public MainPage()
     {
         InitializeComponent();
 
@@ -33,10 +35,14 @@ public partial class MainPage : ContentPage
         displaySelection(spreadsheetGrid);
         
     }
-
+    /// <summary>
+    /// Whenever the spreadsheetGrid detects a selection has been changed, run this event using the spreadsheetGrid that notified it. 
+    /// </summary>
+    /// <param name="grid">SpreadsheetGrid that called this event</param>
     private void displaySelection(ISpreadsheetGrid grid)
     {
         spreadsheetGrid.GetSelection(out int col, out int row);
+
         spreadsheetGrid.GetValue(col, row, out string value);
         if(value.Equals(""))
             currentCellValue.Text = "\"\""; 
@@ -46,8 +52,13 @@ public partial class MainPage : ContentPage
         currentCellName.Text = CordsToString(col, row);
         var content = spreadsheet.GetCellContents(CordsToString(col, row));
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
+
+
+        previousCellContent = currentCellContents.Text;
+
         currentCellContents.Completed += CurrentCellContents_Completed;
         currentCellContents.Focus();
+        //This shows that focus is still being put onto the given element, but the cursor is not being updated for some reason. 
         //if (currentCellContents.Focus())
         //{
         //    currentCellName.Text = "hello";
@@ -60,11 +71,18 @@ public partial class MainPage : ContentPage
         //}
     }
 
+    /// <summary>
+    /// When the user presses enter in the CellContent Entry, both the backing spreadsheet and the spreadsheetGrid GUI object are updated.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CurrentCellContents_Completed(object sender, EventArgs e)
     {
         IList<String> cellsToUpdate;
         try
         {
+            previousCellChanged = currentCellName.Text;
+
             cellsToUpdate = spreadsheet.SetContentsOfCell(currentCellName.Text, currentCellContents.Text);
         }
         catch (Exception ex)
@@ -85,11 +103,18 @@ public partial class MainPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Creates a new empty spreadsheet when clicked. If any unsaved content is in the current sheet, 
+    /// gives the user a pop up menu asking if they want to proceed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void NewClicked(Object sender, EventArgs e)
     {
         if (spreadsheet.Changed)
         {
             var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
+            //Wait for the user to make a decision.
             await b;
             if (b.Result)
             { 
@@ -104,10 +129,14 @@ public partial class MainPage : ContentPage
         else 
             spreadsheetGrid.Clear();
             currentCellContents.Text = "";
-
             //Effectively clears the spreadsheet and all of its cells using the same validator on intial construction
             spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
     }
+    /// <summary>
+    /// Saves the current spreadsheet file as a JSON text file at the location given by the user in the prompt. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
      private async void SaveClickedAsync(object sender, EventArgs e)
      {
         //Displays a text prompt for the user to put in a file path to save the given spreadsheet to.
@@ -187,13 +216,16 @@ public partial class MainPage : ContentPage
     }
 
     private void HelpClicked(object sender, EventArgs e)
-     {
+    {
 
-     }
+    }
 
     private void UndoClicked(object sender, EventArgs e)
     {
-
+        
+        //spreadsheetGrid.SetSelection(StringToCoords(previousCellChanged).Item1, StringToCoords(previousCellChanged).Item1);
+        currentCellContents.Text = previousCellContent;
+        currentCellContents.SendCompleted();
     }
 
     private void RedoClicked(object sender, EventArgs e)
@@ -201,11 +233,22 @@ public partial class MainPage : ContentPage
 
     }
 
+    /// <summary>
+    /// Takes two ints and returns the desired Cell name for this spreadsheet (0,0) -> (A1) or (1,4) -> (B5)
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
     private static string CordsToString(int col, int row)
     {
         return $"{(char)(col + 65)}{row + 1}";
     }
 
+    /// <summary>
+    /// Takes in a cell name  and converts it to desired zero based coordinates. (A1) -> (0,0) or (B5) -> (1,4)
+    /// </summary>
+    /// <param name="cellName"></param>
+    /// <returns></returns>
     private static (int, int) StringToCoords(string cellName)
     {
         //int coord2 = 0;
@@ -219,9 +262,9 @@ public partial class MainPage : ContentPage
         //}
         
         int columnIndex = cellName[0] - 'A';
-        int rowIndex = int.Parse(cellName[1..]) - 1; ;
+        int rowIndex = int.Parse(cellName[1..]) - 1; 
         return (columnIndex, rowIndex);
     }
-
+    
     
 }
