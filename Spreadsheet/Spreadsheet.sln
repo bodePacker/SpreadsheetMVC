@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1706.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaEvaluator", "FormulaEvaluator\FormulaEvaluator.csproj", "{8ABB3F31-A8B6-41D0-A0FC-5FEA16A7FC88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormulaEvaluator", "FormulaEvaluator\FormulaEvaluator.csproj", "{8ABB3F31-A8B6-41D0-A0FC-5FEA16A7FC88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaEvaluatorTest", "FormulaEvaluatorTest\FormulaEvaluatorTest.csproj", "{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormulaEvaluatorTest", "FormulaEvaluatorTest\FormulaEvaluatorTest.csproj", "{CBA80922-FD6B-43EA-BD23-6A0EFAC9FCA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraph", "DependencyGraph\DependencyGraph.csproj", "{09BDF916-16FB-46D8-AB22-64DDC1C92A41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyGraph", "DependencyGraph\DependencyGraph.csproj", "{09BDF916-16FB-46D8-AB22-64DDC1C92A41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraphTests", "DependencyGraphTests\DependencyGraphTests.csproj", "{0C4FE23D-76C5-44CA-877F-7CEA94C29C1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyGraphTests", "DependencyGraphTests\DependencyGraphTests.csproj", "{0C4FE23D-76C5-44CA-877F-7CEA94C29C1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formula", "Formula\Formula.csproj", "{768817D0-9584-4978-AF71-74F7A51595CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formula", "Formula\Formula.csproj", "{768817D0-9584-4978-AF71-74F7A51595CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaTests", "FormulaTests\FormulaTests.csproj", "{2E916C4D-16BC-4C40-A6BA-C94362201A1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormulaTests", "FormulaTests\FormulaTests.csproj", "{2E916C4D-16BC-4C40-A6BA-C94362201A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spreadsheet", "Spreadsheet\Spreadsheet.csproj", "{75DC3D94-F3D6-4DAD-BC77-63CF3C1BDF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spreadsheet", "Spreadsheet\Spreadsheet.csproj", "{75DC3D94-F3D6-4DAD-BC77-63CF3C1BDF7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadsheetTests", "SpreadsheetTests\SpreadsheetTests.csproj", "{0431681B-88EB-4471-AE74-C21FB1994A8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpreadsheetTests", "SpreadsheetTests\SpreadsheetTests.csproj", "{0431681B-88EB-4471-AE74-C21FB1994A8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadsheetGUI", "..\SpreadsheetGUI\SpreadsheetGUI.csproj", "{D9A825FF-617F-4FAF-B189-F3131A4374B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpreadsheetGUI", "..\SpreadsheetGUI\SpreadsheetGUI.csproj", "{D9A825FF-617F-4FAF-B189-F3131A4374B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +61,7 @@ Global
 		{0431681B-88EB-4471-AE74-C21FB1994A8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9A825FF-617F-4FAF-B189-F3131A4374B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9A825FF-617F-4FAF-B189-F3131A4374B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A825FF-617F-4FAF-B189-F3131A4374B2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{D9A825FF-617F-4FAF-B189-F3131A4374B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A825FF-617F-4FAF-B189-F3131A4374B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

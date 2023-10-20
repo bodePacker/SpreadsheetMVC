@@ -3,33 +3,73 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:SS="clr-namespace:SS"
              x:Class="SpreadsheetGUI.MainPage"
-             BackgroundColor="Black">
-    <ContentPage.MenuBarItems>
+             BackgroundColor="LightBlue">
+    <ContentPage.MenuBarItems >
+        
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
-            <MenuFlyoutItem Text="Save" Clicked="SaveClicked" />
+            <MenuFlyoutItem Text="Save" Clicked="SaveClickedAsync" />
             <MenuFlyoutItem Text="Open" Clicked="OpenClicked" />
             
         </MenuBarItem>
+        <MenuBarItem Text="Help">
+            <MenuFlyoutItem Text="View Help Info" Clicked="HelpClicked" />
+            
+
+        </MenuBarItem>
+
+        <MenuBarItem Text="Edit">
+            <MenuFlyoutItem
+                x:Name="BackButton"
+                Text="Undo"
+                Clicked="UndoClicked"
+            />
+            <MenuFlyoutItem
+                x:Name="ForwardButton"
+                Text="Redo"
+                Clicked="RedoClicked"
+            />
+        </MenuBarItem>
+        
+
     </ContentPage.MenuBarItems>
-    <Grid RowDefinitions="40,*"
+    <Grid RowDefinitions="50,*"
           ColumnDefinitions="*,2*,2*"
-          BackgroundColor="Black">
-          
-        <Label
+          BackgroundColor="LightBlue">
+
+        <Border x:Name="CellNameBorder"
+        Grid.Row="0"
+        Grid.Column="0"    
+        Stroke="LightBlue"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 10,10,10,10"
+        Padding=".5">
+
+
+
+            <Entry
             x:Name="currentCellName"
             Grid.Row="0"
             Grid.Column="0"
             Text="A1"
             FontAttributes="Bold"
             FontSize="25"
-            
-            TextColor="White"
-            BackgroundColor="DarkGray"
-            Padding="5"
-        />
- 
-        <Label
+            TextColor="white"
+            BackgroundColor="#636163"
+            IsReadOnly="True"
+            />
+        </Border>
+
+        <Border x:Name="ValueBorder"
+        Grid.Row="0"
+        Grid.Column="1"
+        Stroke="LightBlue"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 13,13,13,13"
+        Padding=".5"
+        >
+
+            <Entry
             x:Name="currentCellValue"
             Grid.Row="0"
             Grid.Column="1"
@@ -37,31 +77,37 @@
             FontAttributes="Bold"
             FontSize="25"
             TextColor="White"
-            BackgroundColor="DarkGray"
-            Margin="2,0,1,0"
-            Padding="5"
-        />
-        
+            BackgroundColor="#636163"
+            IsReadOnly="True"
+            />
+        </Border>
 
-        
-        <Entry
+        <Border x:Name="EntryBorder"
+        Grid.Row="0"
+        Grid.Column="2"
+        Stroke="LightBlue"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 13,13,13,13"
+        Padding=".5"
+        >
+            <Entry
             x:Name="currentCellContents"
             Grid.Row="0"
             Grid.Column="2"
-            
             Text=""
+            TextColor="White"
             FontAttributes="Bold"
-            FontSize="21"
-            BackgroundColor="DarkGray"
-            
-            
-        />
-
-        <SS:SpreadsheetGrid
+            FontSize="20"
+            BackgroundColor="#636163"
+            />
+        </Border>
+        
+            <SS:SpreadsheetGrid
             x:Name="spreadsheetGrid"
             Grid.Row="1"
             Grid.ColumnSpan="3"
-        />
+            
+            />
     </Grid>
 </ContentPage>
 

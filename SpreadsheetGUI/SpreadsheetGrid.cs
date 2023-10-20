@@ -133,6 +133,8 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         OnMouseClick(touch.X, touch.Y);
     }
 
+
+
     /// <summary>
     /// Listener for scroll events. Redraws the panel, maintaining the
     /// row and column headers.
