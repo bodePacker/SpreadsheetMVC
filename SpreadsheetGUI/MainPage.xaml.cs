@@ -146,7 +146,7 @@ public partial class MainPage : ContentPage
         //path = Path.GetFullPath(path);
         try
         {
-            spreadsheet.Save(path);
+            spreadsheet.Save(Path.GetFullPath(path));
         }
         catch
         {
