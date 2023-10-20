@@ -13,9 +13,12 @@
             
         </MenuBarItem>
         <MenuBarItem Text="Help">
-            <MenuFlyoutItem Text="View Help Info" Clicked="HelpClicked" />
+            <MenuFlyoutItem Text="Editing Spreadheet" Clicked="EditingSpreadheetHelpClicked" />
             
-
+            <MenuFlyoutItem Text="File Related Tasks" Clicked="FileHelpClicked" />
+            
+            <MenuFlyoutItem Text="Special Feature: Undo/Redo Directions" Clicked="UndoRedoHelpClicked" />
+            
         </MenuBarItem>
 
         <MenuBarItem Text="Edit">

@@ -213,7 +213,26 @@ public partial class MainPage : ContentPage
         
     }
 
-    private void HelpClicked(object sender, EventArgs e)
+    private void EditingSpreadheetHelpClicked(object sender, EventArgs e)
+    {
+        DisplayAlert("How To Use The Spreadsheet:", 
+            "1. To change the value of a cell, click on it and then input the desired content into the text box on the top right of the window. \n" +
+            "2. Once you have the desired text in the box, press enter to update the valeus in the spreadsheet. \n" +
+            "3. The current cell name will be in the top left box, and the current cell value wil be in the middle box. \n" +
+            "4. In order to enter formulas into the sheet, they must start with an equal sign, otherwise it will be taken as a string literal. EX:(=A1+5) ", "Okay");
+    }
+
+    private void FileHelpClicked(object sender, EventArgs e)
+    {
+        DisplayAlert("How To Save, Load, Or Create New Spreadsheet:",
+            "1. When \"New\" is clicked in the File Menu, a dialogue box asking if you want to erase unsaved work will pop up. If you want to back out, press \"Cancel\" and a new sheet will not be created. " +
+            "If a new sheet is desired press \"Accept\" and unsaved work will be deleted a new sheet will be displayed. \n" +
+            "2. When \"Open\" is clicked in the File Menu, a dialogue box asking about deleting unsaved work, similar to \"New\" will appear. Following that action, if \"Accept\"  \n" +
+            "3. The current cell name will be in the top left box, and the current cell value wil be in the middle box. \n" +
+            "4. In order to enter formulas into the sheet, they must start with an equal sign, otherwise it will be taken as a string literal. EX:(=A1+5) ", "Okay");
+    }
+
+    private void UndoRedoHelpClicked(object sender, EventArgs e)
     {
 
     }
