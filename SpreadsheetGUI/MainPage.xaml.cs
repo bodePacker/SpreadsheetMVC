@@ -43,8 +43,8 @@ public partial class MainPage : ContentPage
         else
             currentCellValue.Text = value;
 
-        currentCellName.Text = cordsToString(col, row);
-        var content = spreadsheet.GetCellContents(cordsToString(col, row));
+        currentCellName.Text = CordsToString(col, row);
+        var content = spreadsheet.GetCellContents(CordsToString(col, row));
         currentCellContents.Text = content is Formula ? "=" + content : content.ToString();
         currentCellContents.Completed += CurrentCellContents_Completed;
         currentCellContents.Focus();
@@ -101,7 +101,12 @@ public partial class MainPage : ContentPage
             }
         }
         //If there has not been a change to the spreadsheet (Loaded or otherwise) just clear automatically. 
-        else spreadsheetGrid.Clear();
+        else 
+            spreadsheetGrid.Clear();
+            currentCellContents.Text = "";
+
+            //Effectively clears the spreadsheet and all of its cells using the same validator on intial construction
+            spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
     }
      private async void SaveClickedAsync(object sender, EventArgs e)
      {
@@ -125,10 +130,7 @@ public partial class MainPage : ContentPage
 
      }
 
-     private void HelpClicked(object sender, EventArgs e)
-     {
-
-     }
+     
 
     /// <summary>
     /// Opens any file as text and prints its contents.
@@ -142,40 +144,84 @@ public partial class MainPage : ContentPage
         {
             //Gives a pop up notifing the user of a potentially unsafe action
             var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
-
-            //If the user accepts the warning, attempt to open the spreadsheet. If canceled, nothing happens.
-            if (b.Result)
+            await b;
+            //If the user cancels the warning, return immediately, ottherwise attempt to open the file.
+            if (!b.Result)
+                return;
+        }    
+            try
             {
-                try
+                FileResult fileResult = await FilePicker.Default.PickAsync();
+                if (fileResult != null)
                 {
-                    FileResult fileResult = await FilePicker.Default.PickAsync();
-                    if (fileResult != null)
-                    {
-                        Console.WriteLine("Successfully chose file: " + fileResult.FileName);
-                        // for windows, replace Console.WriteLine statements with:
-                        //System.Diagnostics.Debug.WriteLine( ... );
+                    //Console.WriteLine("Successfully chose file: " + fileResult.FileName);
+                    // for windows, replace Console.WriteLine statements with:
+                    //System.Diagnostics.Debug.WriteLine( ... );
 
-                        string fileContents = File.ReadAllText(fileResult.FullPath);
-                        Console.WriteLine("First 100 file chars:\n" + fileContents.Substring(0, 100));
-                    }
-                    else
-                    {
-                        Console.WriteLine("No file selected.");
-                    }
+                    //creates a new backing spreadsheet from the given file and uses the same validator and normalizer decided on for this
+                    //SpreashseetGUI application 
+                    spreadsheet = new(fileResult.FullPath, x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(),"ps6");
+                    
+                    //iterate through every cell that has content, and update the visual value in spreadsheetGrid. 
+                    foreach (string cell in spreadsheet.GetNamesOfAllNonemptyCells())
+                        spreadsheetGrid.SetValue(StringToCoords(cell).Item1, StringToCoords(cell).Item2, spreadsheet.GetCellValue(cell).ToString());
+
+                    //string fileContents = File.ReadAllText(fileResult.FullPath);
+                    //Console.WriteLine("First 100 file chars:\n" + fileContents.Substring(0, 100));
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine("Error opening file:");
-                    Console.WriteLine(ex);
+                    //Console.WriteLine("No file selected.");
+                    await DisplayAlert("Failure:", "No file selected.", "Okay");
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error:", $"There was problem opening the given file. {ex.Message}" , "Okay");
+
+                //Console.WriteLine("Error opening file:");
+                //Console.WriteLine(ex);
+            }
+            
+        
     }
 
-    private string cordsToString(int col, int row)
+    private void HelpClicked(object sender, EventArgs e)
+     {
+
+     }
+
+    private void UndoClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void RedoClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private static string CordsToString(int col, int row)
     {
         return $"{(char)(col + 65)}{row + 1}";
     }
 
-   
+    private static (int, int) StringToCoords(string cellName)
+    {
+        //int coord2 = 0;
+        //for (int i = 0; i < cellName.Length; i++)
+        //{
+        //    if (Char.IsDigit(cellName[i]))
+        //    {
+        //        cellName = cellName.Remove(i);
+        //        coord2 = cellName[i];
+        //    }
+        //}
+        
+        int columnIndex = cellName[0] - 'A';
+        int rowIndex = int.Parse(cellName[1..]) - 1; ;
+        return (columnIndex, rowIndex);
+    }
+
+    
 }
