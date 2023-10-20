@@ -30,15 +30,7 @@
                 Clicked="RedoClicked"
             />
         </MenuBarItem>
-        <MenuBarItem Text="Change Spreadsheet" x:Name="ChangeSpreadsheet">
-            
-            <MenuFlyoutItem
-            x:Name="NewSheet"
-            Text="Add New Sheet"
-            Clicked="NewSheetClicked"
-            />
-            
-        </MenuBarItem>
+        
 
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="50,*"
