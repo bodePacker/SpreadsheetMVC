@@ -36,7 +36,7 @@ public partial class MainPage : ContentPage
         ForwardButton.IsEnabled = false;
         BackButton.IsEnabled = false;
         displaySelection(spreadsheetGrid);
-
+        
 
     }
     /// <summary>
@@ -48,8 +48,8 @@ public partial class MainPage : ContentPage
         spreadsheetGrid.GetSelection(out int col, out int row);
 
         spreadsheetGrid.GetValue(col, row, out string value);
-        if(value.Equals(""))
-            currentCellValue.Text = "\"\""; 
+        if (value.Equals(""))
+            currentCellValue.Text = "\"\"";
         else
             currentCellValue.Text = value;
 
@@ -82,7 +82,7 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        history.addÇell(currentCellName.Text, oldContent, currentCellContents.Text);
+        history.addCell(currentCellName.Text, oldContent, currentCellContents.Text);
         currentCellValue.Text = spreadsheet.GetCellValue(cellsToUpdate[0]).ToString();
 
         BackButton.IsEnabled = history.canGoBack();
@@ -91,32 +91,38 @@ public partial class MainPage : ContentPage
         {
             int col = s[0] - 65;
             int row = int.Parse(s[1..]) -1;
-            spreadsheetGrid.SetValue(col, row, spreadsheet.GetCellValue(s).ToString());
+
+            var p = spreadsheet.GetCellValue(s).ToString();
+            if(p.Length > 10) 
+            {
+                p = p.Substring(0,8) + "...";
+            }
+            spreadsheetGrid.SetValue(col, row, p);
         }
     }
 
-    /// <summary>
-    /// Creates a new empty spreadsheet when clicked. If any unsaved content is in the current sheet, 
-    /// gives the user a pop up menu asking if they want to proceed.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void NewClicked(Object sender, EventArgs e)
-    {
-        if (spreadsheet.Changed)
+        /// <summary>
+        /// Creates a new empty spreadsheet when clicked. If any unsaved content is in the current sheet, 
+        /// gives the user a pop up menu asking if they want to proceed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void NewClicked(Object sender, EventArgs e)
         {
-            var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
-            //Wait for the user to make a decision.
-            await b;
-            if (b.Result)
-            { 
-                spreadsheetGrid.Clear();
-                currentCellContents.Text = "";
+            if (spreadsheet.Changed)
+            {
+                var b = DisplayAlert("Warning:", "Action will erase previous spreadsheet data", "Accept", "Cancel");
+                //Wait for the user to make a decision.
+                await b;
+                if (b.Result)
+                { 
+                    spreadsheetGrid.Clear();
+                    currentCellContents.Text = "";
 
-                //Effectively clears the spreadsheet and all of its cells using the same validator on intial construction
-                spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
+                    //Effectively clears the spreadsheet and all of its cells using the same validator on intial construction
+                    spreadsheet = new(x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
+                }
             }
-        }
         //If there has not been a change to the spreadsheet (Loaded or otherwise) just clear automatically. 
         else 
             spreadsheetGrid.Clear();
@@ -267,6 +273,6 @@ public partial class MainPage : ContentPage
         int rowIndex = int.Parse(cellName[1..]) - 1; 
         return (columnIndex, rowIndex);
     }
-    
-    
+
+
 }

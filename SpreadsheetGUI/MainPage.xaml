@@ -4,7 +4,7 @@
              xmlns:SS="clr-namespace:SS"
              x:Class="SpreadsheetGUI.MainPage"
              BackgroundColor="LightBlue">
-    <ContentPage.MenuBarItems>
+    <ContentPage.MenuBarItems >
         
         <MenuBarItem Text="File">
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
@@ -30,8 +30,18 @@
                 Clicked="RedoClicked"
             />
         </MenuBarItem>
+        <MenuBarItem Text="Change Spreadsheet" x:Name="ChangeSpreadsheet">
+            
+            <MenuFlyoutItem
+            x:Name="NewSheet"
+            Text="Add New Sheet"
+            Clicked="NewSheetClicked"
+            />
+            
+        </MenuBarItem>
+
     </ContentPage.MenuBarItems>
-    <Grid RowDefinitions="40,*"
+    <Grid RowDefinitions="50,*"
           ColumnDefinitions="*,2*,2*"
           BackgroundColor="LightBlue">
 
@@ -42,10 +52,10 @@
         StrokeThickness="2"
         StrokeShape="RoundRectangle 10,10,10,10"
         Padding=".5">
-           
 
 
-            <Label
+
+            <Entry
             x:Name="currentCellName"
             Grid.Row="0"
             Grid.Column="0"
@@ -53,8 +63,8 @@
             FontAttributes="Bold"
             FontSize="25"
             TextColor="white"
-            BackgroundColor="DarkGray"
-            Padding="10,.5,1,1"
+            BackgroundColor="#636163"
+            IsReadOnly="True"
             />
         </Border>
 
@@ -66,8 +76,8 @@
         StrokeShape="RoundRectangle 13,13,13,13"
         Padding=".5"
         >
-        
-            <Label
+
+            <Entry
             x:Name="currentCellValue"
             Grid.Row="0"
             Grid.Column="1"
@@ -75,8 +85,8 @@
             FontAttributes="Bold"
             FontSize="25"
             TextColor="White"
-            BackgroundColor="DarkGray"
-            Padding="10,.5,1,1"
+            BackgroundColor="#636163"
+            IsReadOnly="True"
             />
         </Border>
 
@@ -95,8 +105,8 @@
             Text=""
             TextColor="White"
             FontAttributes="Bold"
-            FontSize="16.5"
-            BackgroundColor="DarkGray"
+            FontSize="20"
+            BackgroundColor="#636163"
             />
         </Border>
         

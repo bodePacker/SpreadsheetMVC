@@ -2,6 +2,7 @@
 using Font = Microsoft.Maui.Graphics.Font;
 using SizeF = Microsoft.Maui.Graphics.SizeF;
 using PointF = Microsoft.Maui.Graphics.PointF;
+using Windows.UI.Core;
 
 namespace SS;
 
@@ -132,6 +133,8 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         PointF touch = args.Touches[0];
         OnMouseClick(touch.X, touch.Y);
     }
+
+
 
     /// <summary>
     /// Listener for scroll events. Redraws the panel, maintaining the

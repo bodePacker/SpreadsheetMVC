@@ -11,7 +11,7 @@ namespace SpreadsheetGUI
 			forwards = new();
 		}
 
-		public void addÇell(string address, string oldContents, string newContents)
+		public void addCell(string address, string oldContents, string newContents)
 		{
 			backwards.Push((address, oldContents, newContents));
 			forwards.Clear();
