@@ -1,6 +1,8 @@
 ﻿using SS;
 using System.Text.RegularExpressions;
 using SpreadsheetUtilities;
+using System.Collections;
+using Microsoft.Maui.Graphics.Text;
 
 namespace SpreadsheetGUI;
 
@@ -11,7 +13,6 @@ public partial class MainPage : ContentPage
 {
     Spreadsheet spreadsheet;
     History history;
-
 
 
     /// <summary>
@@ -256,6 +257,43 @@ public partial class MainPage : ContentPage
         ForwardButton.IsEnabled = history.canGoForward();
         BackButton.IsEnabled = history.canGoBack();
     }
+    private void DefaultThemeClicked(object sender, EventArgs e)
+    {
+        spreadsheetGrid.FontTheme = 0;
+        currentCellName.FontFamily = "Lobster-Regular";
+        currentCellValue.FontFamily = "Lobster-Regular";
+        currentCellContents.FontFamily = "Lobster-Regular";
+    }
+    
+    private void ModernThemeClicked(object sender, EventArgs e)
+    {
+        spreadsheetGrid.FontTheme = 1;
+        currentCellName.FontFamily = "Futuren0tFoundRegular";
+        currentCellValue.FontFamily = "Futuren0tFoundRegular";
+        currentCellContents.FontFamily = "Futuren0tFoundRegular";
+    }
+
+    private void NewEnglishThemeClicked(object sender, EventArgs e)
+    {
+        spreadsheetGrid.FontTheme = 2;
+        currentCellName.FontFamily = "Canterbury";
+        currentCellValue.FontFamily = "Canterbury";
+        currentCellContents.FontFamily = "Canterbury";
+    }
+
+    private void SpookyThemeClicked(object sender, EventArgs e)
+    {
+        spreadsheetGrid.FontTheme = 3;
+        currentCellName.FontFamily = "ScaryHalloweenFont";
+
+        currentCellValue.FontFamily = "ScaryHalloweenFont";
+
+        currentCellContents.FontFamily = "ScaryHalloweenFont";
+        currentCellContents.FontSize = 25;
+
+
+    }
+
 
     /// <summary>
     /// Takes two ints and returns the desired Cell name for this spreadsheet (0,0) -> (A1) or (1,4) -> (B5)

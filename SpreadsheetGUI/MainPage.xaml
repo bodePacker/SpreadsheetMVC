@@ -33,7 +33,35 @@
                 Clicked="RedoClicked"
             />
         </MenuBarItem>
-        
+
+        <MenuBarItem Text="Change Themes">
+
+            <MenuFlyoutItem
+            x:Name="DefaultTheme"
+            Text="Default Theme"
+            Clicked="DefaultThemeClicked"
+            />  
+            <MenuFlyoutItem
+                x:Name="ModernTheme"
+                Text="Modern Theme"
+                Clicked="ModernThemeClicked"
+            />
+            <MenuFlyoutItem
+                x:Name="OldEnglishTheme"
+                Text="Old English Theme"
+                Clicked="NewEnglishThemeClicked"
+            />
+            <MenuFlyoutItem
+                x:Name="SpookyTheme"
+                Text="Spooky Theme"
+                Clicked="SpookyThemeClicked"
+            />
+
+
+
+
+        </MenuBarItem>
+
 
     </ContentPage.MenuBarItems>
     <Grid RowDefinitions="50,*"
@@ -47,8 +75,6 @@
         StrokeThickness="2"
         StrokeShape="RoundRectangle 10,10,10,10"
         Padding=".5">
-
-
 
             <Entry
             x:Name="currentCellName"
@@ -69,8 +95,7 @@
         Stroke="LightBlue"
         StrokeThickness="1"
         StrokeShape="RoundRectangle 13,13,13,13"
-        Padding=".5"
-        >
+        Padding=".5">
 
             <Entry
             x:Name="currentCellValue"
@@ -91,8 +116,8 @@
         Stroke="LightBlue"
         StrokeThickness="1"
         StrokeShape="RoundRectangle 13,13,13,13"
-        Padding=".5"
-        >
+        Padding=".5">
+
             <Entry
             x:Name="currentCellContents"
             Grid.Row="0"
@@ -105,12 +130,12 @@
             />
         </Border>
         
-            <SS:SpreadsheetGrid
+        <SS:SpreadsheetGrid
             x:Name="spreadsheetGrid"
             Grid.Row="1"
             Grid.ColumnSpan="3"
-            
             />
+        
     </Grid>
 </ContentPage>
 

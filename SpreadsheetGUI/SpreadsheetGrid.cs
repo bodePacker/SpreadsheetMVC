@@ -2,6 +2,7 @@
 using Font = Microsoft.Maui.Graphics.Font;
 using SizeF = Microsoft.Maui.Graphics.SizeF;
 using PointF = Microsoft.Maui.Graphics.PointF;
+using Microsoft.UI.Xaml.Media;
 
 namespace SS;
 
@@ -61,6 +62,10 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         this.Scrolled += OnScrolled;
         this.Orientation = ScrollOrientation.Both;
     }
+    /// <summary>
+    /// Simple integer flag to detect which fontTheme is selected
+    /// </summary>
+    public int FontTheme {  get; set; }
 
     public void Clear()
     {
@@ -248,8 +253,35 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         // Draw the row labels
         for (int y = 0; y < (ROW_COUNT - _firstRow); y++)
         {
-            DrawRowLabel(canvas, y,
-                (_selectedRow - _firstRow == y) ? Font.Default : Font.DefaultBold);
+            if(FontTheme == 0)
+            {
+                DrawRowLabel(canvas, y,
+                    (_selectedRow - _firstRow == y) ? Font.Default : Font.DefaultBold);
+
+            }
+            if (FontTheme == 1)
+            {
+                var font = new Font("Futuren0tFoundRegular");
+                DrawRowLabel(canvas, y, (_selectedRow - _firstRow == y) ? font : font);
+
+            }
+            else if  (FontTheme == 2)
+            {
+                var font = new Font("Canterbury");
+                DrawRowLabel(canvas, y, (_selectedRow - _firstRow == y) ? font : font);
+
+            }
+            else if  (FontTheme == 3)
+            {
+                var font = new Font("ScaryHalloweenFont");
+                DrawRowLabel(canvas, y, (_selectedRow - _firstRow == y) ? font : font);
+
+            }
+            else
+                DrawRowLabel(canvas, y,
+                    (_selectedRow - _firstRow == y) ? Font.Default : Font.DefaultBold);
+
+
         }
 
         // Highlight the selection, if it is visible
@@ -270,6 +302,13 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
             int row = address.Key.Row - _firstRow;
             SizeF size = canvas.GetStringSize(text, Font.Default, FONT_SIZE + FONT_SIZE * 1.75f);
             canvas.Font = Font.Default;
+
+            if(FontTheme == 3)
+            {
+                var font = new Font("ScaryHalloweenFont");
+                canvas.Font = font;
+            }
+               
             if (col >= 0 && row >= 0)
             {
                 canvas.DrawString(text,
