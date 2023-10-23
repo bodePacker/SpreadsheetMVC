@@ -106,20 +106,31 @@ public partial class MainPage : ContentPage
 
         BackButton.IsEnabled = history.CanGoBack();
         ForwardButton.IsEnabled = history.canGoForward();
-        foreach (var s in cellsToUpdate)
+        foreach (var adress in cellsToUpdate)
         {
-            int col = s[0] - 65;
-            int row = int.Parse(s[1..]) - 1;
-
-            var p = spreadsheet.GetCellValue(s).ToString();
-
-            //shortening string to avoid overflow
-            if (p.Length > 10)
-            {
-                p = p.Substring(0, 8) + "...";
-            }
-            spreadsheetGrid.SetValue(col, row, p);
+            UpdateGrid(adress);
         }
+    }
+
+    /// <summary>
+    /// This method will update the value of the spreadsheetGrid object at the
+    /// specified address to equal the value determined by the backing spreadsheet
+    /// object
+    /// </summary>
+    /// <param name="adress"></param>
+    private void UpdateGrid(string adress)
+    {
+        var coords = StringToCoords(adress);
+
+        var cellValue = spreadsheet.GetCellValue(adress).ToString();
+
+        //shortening string to avoid overflow
+        if (cellValue.Length > 10)
+        {
+            cellValue = cellValue.Substring(0, 8) + "...";
+        }
+
+        spreadsheetGrid.SetValue(coords.Item1, coords.Item2, cellValue);
     }
 
     /// <summary>
@@ -234,7 +245,6 @@ public partial class MainPage : ContentPage
             FileResult fileResult = await FilePicker.Default.PickAsync();
             if (fileResult != null)
             {
-
                 tempsheet = spreadsheet;
                 spreadsheet = new(fileResult.FullPath, x => Regex.IsMatch(x, "^[A-Z][1-9][0-9]|[A-Z][1-9]$"), x => x.ToUpper(), "ps6");
                 spreadsheetGrid.Clear();
@@ -243,8 +253,8 @@ public partial class MainPage : ContentPage
                 pathsToSaveTo.Clear();
                 pathsToSaveTo.Add(fileResult.FullPath);
                 //iterate through every cell that has content, and update the visual value in spreadsheetGrid. 
-                foreach (string cell in spreadsheet.GetNamesOfAllNonemptyCells())
-                    spreadsheetGrid.SetValue(StringToCoords(cell).Item1, StringToCoords(cell).Item2, spreadsheet.GetCellValue(cell).ToString());
+                foreach (string cellAddress in spreadsheet.GetNamesOfAllNonemptyCells())
+                    UpdateGrid(cellAddress);
 
                 spreadsheetGrid.SetSelection(0, 0);
                 DisplaySelection(spreadsheetGrid);
@@ -260,8 +270,8 @@ public partial class MainPage : ContentPage
             await DisplayAlert("Error:", $"There was problem opening the given file. {ex.Message}", "Okay");
             spreadsheet = tempsheet;
             spreadsheetGrid.Clear();
-            foreach (string cell in spreadsheet.GetNamesOfAllNonemptyCells())
-                spreadsheetGrid.SetValue(StringToCoords(cell).Item1, StringToCoords(cell).Item2, spreadsheet.GetCellValue(cell).ToString());
+            foreach (string cellAddress in spreadsheet.GetNamesOfAllNonemptyCells())
+                UpdateGrid(cellAddress);
         }
     }
 
@@ -329,8 +339,7 @@ public partial class MainPage : ContentPage
 
         //Update the spreadsheets with the undo data
         spreadsheet.SetContentsOfCell(oldData.Item1, oldData.Item2);
-        var coords = StringToCoords(oldData.Item1);
-        spreadsheetGrid.SetValue(coords.Item1, coords.Item2, oldData.Item2);
+        UpdateGrid(oldData.Item1);
 
         //Disable / Reable buttons
         ForwardButton.IsEnabled = history.canGoForward();
@@ -352,8 +361,7 @@ public partial class MainPage : ContentPage
 
         //Update the spreadsheets with the redo data
         spreadsheet.SetContentsOfCell(newData.Item1, newData.Item2);
-        var coords = StringToCoords(newData.Item1);
-        spreadsheetGrid.SetValue(coords.Item1, coords.Item2, newData.Item2);
+        UpdateGrid(newData.Item1);
 
         //Disable / Reable buttons
         ForwardButton.IsEnabled = history.canGoForward();
@@ -367,7 +375,6 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     private void DefaultThemeClicked(object sender, EventArgs e)
     {
-        spreadsheetGrid.FontTheme = 0;
         currentCellName.FontFamily = "Lobster-Regular";
         currentCellValue.FontFamily = "Lobster-Regular";
         currentCellContents.FontFamily = "Lobster-Regular";
@@ -380,7 +387,6 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     private void ModernThemeClicked(object sender, EventArgs e)
     {
-        spreadsheetGrid.FontTheme = 1;
         currentCellName.FontFamily = "Futuren0tFoundRegular";
         currentCellValue.FontFamily = "Futuren0tFoundRegular";
         currentCellContents.FontFamily = "Futuren0tFoundRegular";
@@ -393,7 +399,6 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     private void NewEnglishThemeClicked(object sender, EventArgs e)
     {
-        spreadsheetGrid.FontTheme = 2;
         currentCellName.FontFamily = "Canterbury";
         currentCellValue.FontFamily = "Canterbury";
         currentCellContents.FontFamily = "Canterbury";
@@ -406,7 +411,6 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     private void SpookyThemeClicked(object sender, EventArgs e)
     {
-        spreadsheetGrid.FontTheme = 3;
         currentCellName.FontFamily = "ScaryHalloweenFont";
 
         currentCellValue.FontFamily = "ScaryHalloweenFont";
@@ -434,16 +438,6 @@ public partial class MainPage : ContentPage
     /// <returns></returns>
     private static (int, int) StringToCoords(string cellName)
     {
-        //int coord2 = 0;
-        //for (int i = 0; i < cellName.Length; i++)
-        //{
-        //    if (Char.IsDigit(cellName[i]))
-        //    {
-        //        cellName = cellName.Remove(i);
-        //        coord2 = cellName[i];
-        //    }
-        //}
-
         int columnIndex = cellName[0] - 'A';
         int rowIndex = int.Parse(cellName[1..]) - 1;
         return (columnIndex, rowIndex);
