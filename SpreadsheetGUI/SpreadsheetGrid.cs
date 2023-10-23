@@ -2,7 +2,6 @@
 using Font = Microsoft.Maui.Graphics.Font;
 using SizeF = Microsoft.Maui.Graphics.SizeF;
 using PointF = Microsoft.Maui.Graphics.PointF;
-
 namespace SS;
 
 /// <summary>
@@ -61,6 +60,7 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         this.Scrolled += OnScrolled;
         this.Orientation = ScrollOrientation.Both;
     }
+
 
     public void Clear()
     {
@@ -248,8 +248,11 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
         // Draw the row labels
         for (int y = 0; y < (ROW_COUNT - _firstRow); y++)
         {
+          
             DrawRowLabel(canvas, y,
-                (_selectedRow - _firstRow == y) ? Font.Default : Font.DefaultBold);
+            (_selectedRow - _firstRow == y) ? Font.Default : Font.DefaultBold);
+
+
         }
 
         // Highlight the selection, if it is visible
@@ -270,6 +273,7 @@ public class SpreadsheetGrid : ScrollView, IDrawable, ISpreadsheetGrid
             int row = address.Key.Row - _firstRow;
             SizeF size = canvas.GetStringSize(text, Font.Default, FONT_SIZE + FONT_SIZE * 1.75f);
             canvas.Font = Font.Default;
+               
             if (col >= 0 && row >= 0)
             {
                 canvas.DrawString(text,

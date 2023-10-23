@@ -51,6 +51,13 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\Canterbury.ttf" />
+	  <None Remove="Resources\Fonts\Futuren0tFoundRegular.ttf" />
+	  <None Remove="Resources\Fonts\FutureWest.ttf" />
+	  <None Remove="Resources\Fonts\ModerniseDemoRegular.ttf" />
+	  <None Remove="Resources\Fonts\ScaryHalloweenFont.ttf" />
+	</ItemGroup>
+	<ItemGroup>
 	  <ProjectReference Include="..\Spreadsheet\Spreadsheet\Spreadsheet.csproj" />
 	  <ProjectReference Include="..\Spreadsheet\Formula\Formula.csproj" />
 	</ItemGroup>
