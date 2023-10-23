@@ -43,8 +43,12 @@ Note: On Mac, Menu Items cannot be disabled, so clicking "Undo" when no actions 
 Redo:
 Select "Redo" in the Edit Menu to reverse the most recent undone action.
 Note: On Mac, Menu Items cannot be disabled, so clicking "Redo" when no actions have been undone will throw an error.
-Special Feature: Cell Value Truncation
+
+Cell Value Truncation:
 If a cell's content contains more than 10 characters, the spreadsheet will visually truncate the values to fit inside the cell.
+
+Special Feature Notes:
+Our special features include a undo and redo buttons, a menu to change font themes, and auto truncation of strings longer then 10 characters. This truncation ensures values do not pill over into other cells. The full cell value and content can still be viewed in the Entry menu items at the top of the sheet. The use of all of these features is explained in more depth above. 
 
 Implementation Notes
 To view data in the spreadsheet we used entries as a simple menu bar to view the current selcted cell, the current cell's value, and the current cell's content. We also added menuBar elements for spreadsheet actions such as Save or Undo. This design decison allowed us to maintain a single content page and increases usability, as this follows larger spreadsheet design decisions. 
@@ -53,7 +57,7 @@ Known Issues
 Menu Items are not allowed to be disabled on Mac, so when clicking a button that should be disabled, a pop up is displayed saying button can not be clicked. 
 
 Future Enhancements
-When changing themes, we were uable to make the Column and Row labels update to the repective font theme slected by the user. We would like to add that functionality as well as the the font of all text the user enters into the spreadsheet cells.
+When changing themes, we were unable to make the Column and Row labels update to the repective font theme slected by the user. We would like to add that functionality as well as the the font of all text the user enters into the spreadsheet cells.
 
 Author Information
 Bode Packer
