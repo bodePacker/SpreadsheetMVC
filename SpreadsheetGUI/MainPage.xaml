@@ -10,7 +10,7 @@
             <MenuFlyoutItem Text="New" Clicked="NewClicked" />
             <MenuFlyoutItem Text="Open" Clicked="OpenClicked" />
             <MenuFlyoutItem Text="Save" Clicked="SaveClickedAsync" />
-            <MenuFlyoutItem Text="Save as" Clicked="SaveAsClickedAsync"/>
+            <MenuFlyoutItem Text="Save As" Clicked="SaveAsClickedAsync"/>
             
         </MenuBarItem>
         <MenuBarItem Text="Help">
