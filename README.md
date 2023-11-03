@@ -3,10 +3,10 @@ Author: Tim Blamires & Bode Packer
 Date: 10/23/23
 
 Project Overview
-This README file provides essential information about the .NET MAUI Spreadsheet project. It includes details about design decisions, external code resources, implementation notes, and any important instructions for general use.
+This project is a basic Excel spreasheet clone written in C# and MAUI. Bode Packer and Tim Blamires worked on this project over the course of 7 weeks as a class project for Software Practice 1. We implemented a GUI interface following MVC architecture as well as different backing classes to represent formulas and basic calculator functions. 
 
 Project Description
-Our .NET MAUI Spreadsheet project is designed to provide a user-friendly interface for managing spreadsheets. The application features several functions to make working with spreadsheets more efficient and user-friendly. Below are some of the key functionalities:
+Our .NET MAUI Spreadsheet project is designed to provide a user-friendly interface for managing spreadsheets. The application features several functions to make working with spreadsheets more efficient and user-friendly. This includes editing, file saving and opening, calculator functions, undo/redo functionality, and adjusting themes. Below are some of the key functionalities:
 
 Editing Spreadsheet
 
