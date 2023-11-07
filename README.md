@@ -51,7 +51,7 @@ Special Feature Notes:
 Our special features include a undo and redo buttons, a menu to change font themes, and auto truncation of strings longer then 10 characters. This truncation ensures values do not pill over into other cells. The full cell value and content can still be viewed in the Entry menu items at the top of the sheet. The use of all of these features is explained in more depth above. 
 
 Implementation Notes
-To view data in the spreadsheet we used entries as a simple menu bar to view the current selcted cell, the current cell's value, and the current cell's content. We also added menuBar elements for spreadsheet actions such as Save or Undo. This design decison allowed us to maintain a single content page and increases usability, as this follows larger spreadsheet design decisions. 
+To view data in the spreadsheet we used entries as a simple menu bar to view the current selcted cell, the current cell's value, and the current cell's content. We also added menuBar elements for spreadsheet actions such as Save or Undo. This design decison allowed us to maintain a single content page and increases usability, as this follows larger spreadsheet design decisions. The code imported in the "Added PS1 - PS5 Code" was also jointly written by Bode and Tim.
 
 Known Issues
 Menu Items are not allowed to be disabled on Mac, so when clicking a button that should be disabled, a pop up is displayed saying button can not be clicked. 
